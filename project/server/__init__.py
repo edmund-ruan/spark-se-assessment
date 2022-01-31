@@ -63,7 +63,7 @@ def index_site():
 import json
 from json import JSONEncoder
 
-@app.route("/users/test", methods=['GET'])
+@app.route("/users/index", methods=['GET'])
 def test_url():
     #for user_item in db.session:
         #print(user_item.email)
@@ -82,12 +82,13 @@ def test_url():
     data = '{"users":['
     #temp_dict = dict({"users":{"admin":"adminval", "email":"emailval", "id": "idval", "registered_on": "r_val"}})
     for row in result:
+        """
         print("admin: ",row.admin)
         print("email: ",row.email)
         print("id: ",row.id)
         print("registered_on: ",row.registered_on)
         print()
-
+        """
         current_item = {"admin: ":row.admin,
             "email: ":row.email,
             "id: ":row.id,
