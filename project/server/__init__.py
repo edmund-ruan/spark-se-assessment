@@ -15,7 +15,7 @@ if os.environ.get('FLASK_COVERAGE'):
     COV.start()
 
 import click
-from flask import Flask
+from flask import Flask, jsonify, make_response
 from flask_bcrypt import Bcrypt
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
@@ -41,6 +41,68 @@ def root_site():
 from project.server.auth.views import auth_blueprint
 app.register_blueprint(auth_blueprint)
 
+#my code here for new route
+
+"""
+from flask_marshmallow import Marshmallow
+from flask import jsonify
+ma = Marshmallow(app)
+class UserSchema(ma.ModelSchema):
+    class Meta:
+        model = User
+
+@app.route("/users/index")
+def index_site():
+    users = User.query.all()
+    user_schema = UserSchema(many=True)
+    output = user_schema.data
+    return jsonify(output)
+
+"""
+
+import json
+from json import JSONEncoder
+
+@app.route("/users/test", methods=['GET'])
+def test_url():
+    #for user_item in db.session:
+        #print(user_item.email)
+    #User.query.all()
+    #for u in User.query.all():
+        #print(u.__dict__)
+    #user_list = User.query.all()
+    #return "<p>It works for TESTING!</p>"
+    #class EmployeeEncoder(JSONEncoder):
+        #def default(self, o):
+            #return o.__dict__
+    #return EmployeeEncoder().encode(user_list)
+    #return jsonify(user_list)
+    #return User
+    result = db.session.query(User).all()
+    data = '{"users":['
+    #temp_dict = dict({"users":{"admin":"adminval", "email":"emailval", "id": "idval", "registered_on": "r_val"}})
+    for row in result:
+        print("admin: ",row.admin)
+        print("email: ",row.email)
+        print("id: ",row.id)
+        print("registered_on: ",row.registered_on)
+        print()
+
+        current_item = {"admin: ":row.admin,
+            "email: ":row.email,
+            "id: ":row.id,
+            "registered_on: ":row.registered_on}
+        #temp_dict["users"].update(current_item)
+        s = json.dumps(current_item, indent=4, sort_keys=True, default=str)
+        data += s + ","
+    data=data[:-1]
+    data += "]}"
+    return data
+    
+    
+
+
+#
 @app.cli.command()
 @click.option('--coverage/--no-coverage', default=False,
                 help='Run tests under code coverage.')
