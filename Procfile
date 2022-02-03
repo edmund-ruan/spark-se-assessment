@@ -1,5 +1,7 @@
-web: gunicorn wsgi:app
+#web: gunicorn wsgi:app
 
 heroku ps:scale web=1
 
-release: ./launch.sh
+web: ./launch.sh
+
+#release: python project.server.__init__.py db upgrade
