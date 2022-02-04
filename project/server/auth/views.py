@@ -39,9 +39,9 @@ class RegisterAPI(MethodView):
                 # generate the auth token
                 # print('gothere3')
                 auth_token = user.encode_auth_token(user.id)
-                print(auth_token)
+                # print(auth_token)
                 # print('gothere4')
-                
+
                 responseObject = {
                     'status': 'success',
                     'message': 'Successfully registered.',
@@ -50,7 +50,7 @@ class RegisterAPI(MethodView):
                 # print('done')
                 return make_response(jsonify(responseObject)), 201
             except Exception as e:
-                print(e)
+                # print(e)
                 responseObject = {
                     'status': 'fail',
                     'message': 'Some error occurred. Please try again.'
